@@ -18,8 +18,6 @@ export const useVms = defineStore('vms', () => {
         throw err
       })
 
-    console.log(fetchResult.data)
-
     vms.value = fetchResult.data.vbox_vms
     fetchingVms.value = false
   }
