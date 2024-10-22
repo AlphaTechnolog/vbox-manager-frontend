@@ -1,6 +1,4 @@
 <script setup lang="ts">
-// @ts-expect-error idk this types definition doesn't works
-import RFB from "@novnc/novnc/core/rfb";
 import { storeToRefs } from 'pinia';
 import { useAppState, useVms, VMStatus, type VM } from '@/stores';
 import { useRoute } from 'vue-router';
@@ -19,7 +17,7 @@ const wssUrl = computed(() => {
 
 const route = useRoute();
 
-const handleOnRequiredCredentials = (rfb?: RFB) => {
+const handleOnRequiredCredentials = <T extends { sendCredentials: (x: Record<string, unknown>) => void },>(rfb: T) => {
   rfb.sendCredentials({
     password: prompt("Enter password"),
   });
