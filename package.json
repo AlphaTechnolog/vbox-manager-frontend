@@ -13,16 +13,19 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@novnc/novnc": "^1.5.0",
     "@phosphor-icons/vue": "^2.2.1",
     "axios": "^1.7.7",
     "pinia": "^2.2.4",
     "vue": "^3.5.11",
-    "vue-router": "^4.4.5"
+    "vue-router": "^4.4.5",
+    "vue-vnc": "^0.0.6"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",
     "@types/axios": "^0.14.0",
     "@types/node": "^20.16.11",
+    "@types/novnc__novnc": "^1.5.0",
     "@vitejs/plugin-vue": "^5.1.4",
     "@vue/eslint-config-prettier": "^10.0.0",
     "@vue/eslint-config-typescript": "^14.0.0",
