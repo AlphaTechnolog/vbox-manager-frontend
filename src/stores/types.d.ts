@@ -3,3 +3,8 @@ export interface VM {
   status: string
   uuid: string
 }
+
+export enum VMStatus {
+  running,
+  stopped,
+}

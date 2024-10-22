@@ -1,30 +1,44 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import { storeToRefs } from "pinia";
 import { PhPlay, PhStop, PhTrash, PhCaretLeft, PhCaretRight } from "@phosphor-icons/vue";
 
-import { useSidebarState } from "@/stores";
+import { useSidebarState, useAppState } from "@/stores";
 import Badge from "./Badge.vue";
 
 const sidebarState = useSidebarState();
+const appState = useAppState();
+
 const { showSidebar } = storeToRefs(sidebarState);
 const { toggleSidebar } = sidebarState;
+
+const { selectedVM, vmStatus } = storeToRefs(appState);
+const { formatVMStatus } = appState;
+
+const vmLabel = computed(() => {
+  return selectedVM.value === undefined ? "VBox Manager" : selectedVM.value.name
+});
 </script>
 
 <template>
-  <navbar class="w-full py-2 px-4 flex justify-between items-center border-b border-background_light">
+  <nav class="w-full py-2 px-4 flex justify-between items-center border-b border-background_light">
     <div class="flex justify-center items-center gap-x-2">
       <button class="toggle-sidebar-button" @click="toggleSidebar">
         <ph-caret-left v-if="showSidebar" />
         <ph-caret-right v-else />
       </button>
       <h3 class="text-xl">
-        Gentoo
+        {{ vmLabel }}
       </h3>
-      <badge />
+      <badge
+        v-if="selectedVM !== undefined"
+        :label="formatVMStatus(vmStatus!)"
+        :status="vmStatus!"
+      />
     </div>
 
     <div class="flex justify-center items-center gap-x-2">
-      <button class="toolbar-button-base play" disabled>
+      <button class="toolbar-button-base play">
         <ph-play />
       </button>
       <button class="toolbar-button-base stop">
@@ -34,7 +48,7 @@ const { toggleSidebar } = sidebarState;
         <ph-trash />
       </button>
     </div>
-  </navbar>
+  </nav>
 </template>
 
 <style scoped lang="css">

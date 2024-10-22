@@ -1,21 +1,20 @@
-<script lang="ts" setup>
-import { useVms } from '@/stores/useVms'
-import { onMounted } from 'vue'
-import { storeToRefs } from 'pinia'
+<script setup lang="ts">
+import { storeToRefs } from "pinia";
+import { useAppState } from "@/stores";
+import { onMounted } from "vue";
 
-const store = useVms()
-const { fetchall } = store
-const { fetchingVms, vms } = storeToRefs(store)
+const appState = useAppState();
 
+const { selectedVM } = storeToRefs(appState);
+
+// reset selected vm when going to /
 onMounted(() => {
-  fetchall()
+  if (selectedVM !== undefined) {
+    selectedVM.value = undefined;
+  }
 })
 </script>
 
 <template>
-  <div v-if="!fetchingVms">
-    <div v-for="vm of vms" :key="vm.uuid">
-      <p>{{ vm.name }}</p>
-    </div>
-  </div>
+  <h1>hello</h1>
 </template>
