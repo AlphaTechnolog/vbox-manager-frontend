@@ -33,7 +33,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="flex flex-col gap-y-2 justify-center items-center h-[80%]">
+  <main :class="`flex flex-col gap-y-2 justify-center items-center ${vmStatus === VMStatus.stopped ? 'h-[80%]' : 'h-full'}`">
     <div v-if="vmStatus == VMStatus.stopped" class="text-dimmed_foreground flex flex-col justify-center items-center">
       <ph-smiley-wink size="150px" />
       <h3 class="text-xl">
@@ -52,6 +52,7 @@ onMounted(() => {
       <vue-vnc
         :url="wssUrl"
         :onCredentialsRequired="handleOnRequiredCredentials"
+        style="max-height: 80vh !important;"
         focusOnClick
       />
       <p>
