@@ -10,7 +10,9 @@ export const useAppState = defineStore("appstate", () => {
       return undefined;
     }
 
-    if (selectedVM.value.status.startsWith("powered off")) {
+    const status = selectedVM.value.status;
+
+    if (status.startsWith("powered off") || status.startsWith("saved")) {
       return VMStatus.stopped;
     }
 

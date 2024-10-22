@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore, storeToRefs } from 'pinia'
 import { api } from '@/api/axios'
-import { useAppState, VMStatus } from "@/stores";
+import { useAppState } from "@/stores";
 
 import type { StartVMResponse, VM } from './types.d'
 
