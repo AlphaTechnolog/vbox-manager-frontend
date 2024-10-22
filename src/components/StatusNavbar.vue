@@ -3,17 +3,23 @@ import { computed } from "vue";
 import { storeToRefs } from "pinia";
 import { PhPlay, PhStop, PhTrash, PhCaretLeft, PhCaretRight } from "@phosphor-icons/vue";
 
-import { useSidebarState, useAppState } from "@/stores";
+import { useSidebarState, useAppState, VMStatus, useVms } from "@/stores";
 import Badge from "./Badge.vue";
 
 const sidebarState = useSidebarState();
 const appState = useAppState();
+const vmsStore = useVms();
 
 const { showSidebar } = storeToRefs(sidebarState);
 const { toggleSidebar } = sidebarState;
 
 const { selectedVM, vmStatus } = storeToRefs(appState);
 const { formatVMStatus } = appState;
+
+const { fetchingVms } = storeToRefs(vmsStore);
+const { startVM, stopVM } = vmsStore;
+
+const showVMDetails = computed(() => selectedVM.value !== undefined);
 
 const vmLabel = computed(() => {
   return selectedVM.value === undefined ? "VBox Manager" : selectedVM.value.name
@@ -31,20 +37,31 @@ const vmLabel = computed(() => {
         {{ vmLabel }}
       </h3>
       <badge
-        v-if="selectedVM !== undefined"
+        v-if="showVMDetails"
         :label="formatVMStatus(vmStatus!)"
         :status="vmStatus!"
       />
     </div>
 
-    <div class="flex justify-center items-center gap-x-2">
-      <button class="toolbar-button-base play">
+    <div class="flex justify-center items-center gap-x-2" v-if="showVMDetails">
+      <button
+        class="toolbar-button-base play"
+        :disabled="vmStatus! == VMStatus.running || fetchingVms"
+        @click="startVM(selectedVM!.name)"
+      >
         <ph-play />
       </button>
-      <button class="toolbar-button-base stop">
+      <button
+        class="toolbar-button-base stop"
+        :disabled="vmStatus! == VMStatus.stopped || fetchingVms"
+        @click="stopVM(selectedVM!.name)"
+      >
         <ph-stop />
       </button>
-      <button class="toolbar-button-base delete">
+      <button
+        class="toolbar-button-base delete"
+        :disabled="vmStatus! == VMStatus.running || fetchingVms"
+      >
         <ph-trash />
       </button>
     </div>
