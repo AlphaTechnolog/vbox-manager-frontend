@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useVms } from '@/composables/useVms'
+import { useVms } from '@/stores/useVms'
 import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 
