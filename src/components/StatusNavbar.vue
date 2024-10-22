@@ -5,6 +5,9 @@ import { PhPlay, PhStop, PhTrash, PhCaretLeft, PhCaretRight } from "@phosphor-ic
 
 import { useSidebarState, useAppState, VMStatus, useVms } from "@/stores";
 import Badge from "./Badge.vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const sidebarState = useSidebarState();
 const appState = useAppState();
@@ -17,7 +20,23 @@ const { selectedVM, vmStatus } = storeToRefs(appState);
 const { formatVMStatus } = appState;
 
 const { fetchingVms } = storeToRefs(vmsStore);
-const { startVM, stopVM } = vmsStore;
+const { startVM, stopVM, deleteVM } = vmsStore;
+
+const stopCurrentVM = () => {
+  stopVM({
+    name: selectedVM.value!.name,
+    savestate: confirm('Save stae?'),
+  });
+}
+
+const removeCurrentVM = async () => {
+  await deleteVM({
+    name: selectedVM.value!.name,
+    remove: confirm('Remove vm files?'),
+  });
+
+  router.push("/");
+}
 
 const showVMDetails = computed(() => selectedVM.value !== undefined);
 
@@ -54,13 +73,14 @@ const vmLabel = computed(() => {
       <button
         class="toolbar-button-base stop"
         :disabled="vmStatus! == VMStatus.stopped || fetchingVms"
-        @click="stopVM(selectedVM!.name)"
+        @click="stopCurrentVM"
       >
         <ph-stop />
       </button>
       <button
         class="toolbar-button-base delete"
         :disabled="vmStatus! == VMStatus.running || fetchingVms"
+        @click="removeCurrentVM"
       >
         <ph-trash />
       </button>

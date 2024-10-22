@@ -55,9 +55,7 @@ export const useVms = defineStore('vms', () => {
   }
 
   // TODO: Use better confirm implementation.
-  const stopVM = async (name: string): Promise<void> => {
-    const savestate = confirm("Do you wanna save state?");
-
+  const stopVM = async ({ name, savestate }: { name: string, savestate: boolean }): Promise<void> => {
     fetchingVms.value = true;
 
     type Response = {
@@ -82,6 +80,34 @@ export const useVms = defineStore('vms', () => {
 
     refreshAppStateVM();
   }
+  
+  const deleteVM = async ({ name, remove }: { name: string, remove: boolean }): Promise<void> => {
+    fetchingVms.value = true;
+
+    type Response = {
+      is_err: boolean;
+      message?: string;
+      payload: {
+        stdout: string;
+        stderr: string;
+      };
+    };
+
+    const fetchResult = await api.delete<Response>("/unregistervm", {
+      params: {
+        name,
+        delete: remove ? "yes" : "no",
+      },
+    }).catch(handleErrors);
+
+    if (fetchResult.data.is_err) {
+      return handleErrors(new Error(fetchResult.data.message || "Unknown error happened"));
+    }
+
+    await fetchall();
+
+    refreshAppStateVM();
+  }
 
   return {
     vms,
@@ -89,5 +115,6 @@ export const useVms = defineStore('vms', () => {
     fetchall,
     startVM,
     stopVM,
+    deleteVM,
   }
 })
