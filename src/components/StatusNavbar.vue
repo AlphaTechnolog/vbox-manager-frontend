@@ -25,7 +25,7 @@ const { startVM, stopVM, deleteVM } = vmsStore;
 const stopCurrentVM = () => {
   stopVM({
     name: selectedVM.value!.name,
-    savestate: confirm('Save stae?'),
+    savestate: confirm('Save state?'),
   });
 }
 
