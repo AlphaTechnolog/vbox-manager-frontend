@@ -1,9 +1,9 @@
-# VBox Manager API
+# VBox Manager Frontend
 
 > [!NOTE]
 > The backend for this project [here](https://github.com/alphatechnolog/vbox-manager-api), check it out aswell!
 
-This project's purpose is to provide a simple solution for remote virtualbox-based machines management! And this is the api repository. The idea is to let you create/start/stop/remove virtual machines and also allow you to connect through ssh and even connect directly from the frontend itself via vnc! (or via an external vnc guest)
+This project's purpose is to provide a simple solution for remote virtualbox-based machines management! And this is the frontend repository. The idea is to let you create/start/stop/remove virtual machines and also allow you to connect through ssh and even connect directly from the frontend itself via vnc! (or via an external vnc guest)
 
 ## Getting started
 
